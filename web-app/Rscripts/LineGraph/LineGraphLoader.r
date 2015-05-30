@@ -127,7 +127,7 @@ LineGraph.plotter <- function(
 	} else if (graphType=="MERR") {
 	  limits <- aes(ymax = MEAN + SE, ymin = MEAN - SE)
     layerData <- aes(x=TIME_VALUE, y=MEAN, group=GROUP, colour=GROUP)
-    yLabel <- paste(yLabel,"(mean + se)")
+    yLabel <- paste(yLabel,"(mean + se - XXX)")
 	} else if (graphType=="MSTD") {
 	  limits <- aes(ymax = MEAN + SD, ymin = MEAN - SD)
     layerData <- aes(x=TIME_VALUE, y=MEAN, group=GROUP, colour=GROUP)
@@ -137,40 +137,54 @@ LineGraph.plotter <- function(
     layerData <- aes(x=TIME_VALUE, y=MEDIAN, group=GROUP, colour=GROUP)
     yLabel <- paste(yLabel,"(median + se)")
 	}
-  p <- ggplot(data=dataOutput,layerData) + ylab(yLabel)
+
+	# ggplot2 examples
+    library(ggplot2)
+
+    # create factors with value labels
+    mtcars$gear <- factor(mtcars$gear,levels=c(3,4,5),labels=c("3gears","4gears","5gears"))
+    mtcars$am <- factor(mtcars$am,levels=c(0,1),labels=c("Automatic","Manual"))
+    mtcars$cyl <- factor(mtcars$cyl,levels=c(4,6,8),labels=c("4cyl","6cyl","8cyl"))
+
+    # Kernel density plots for mpg
+    # grouped by number of gears (indicated by color)
+  p <- qplot(mpg, data=mtcars, geom="density", fill=gear, alpha=I(.5),main="Distribution of Gas Milage", xlab="Miles Per Gallon",ylab="Density")
+
+
+#  p <- ggplot(data=dataOutput,layerData) + ylab(yLabel)
 	
-	p <- p + geom_line(size=1.5)
-    timeDiff <- max(data.to.plot$TIME_VALUE)
-    errorBarScale <- 0.05
+#	p <- p + geom_line(size=1.5)
+#    timeDiff <- max(data.to.plot$TIME_VALUE)
+#    errorBarScale <- 0.05
     #the error bars width have to be scaled from the max time value, otherwise they are very wide if time values are low and very small if time values are high
-    if (!plot.individuals) p <- p + geom_errorbar(limits,width=timeDiff*errorBarScale-(errorBarScale/timeDiff)*2)
+#    if (!plot.individuals) p <- p + geom_errorbar(limits,width=timeDiff*errorBarScale-(errorBarScale/timeDiff)*2)
   
 	#Defines a continuous x-axis with proper break-locations, labels, and axis-name
-    p <- p + scale_x_continuous(name = "TIMEPOINT", breaks = dataOutput$TIME_VALUE, labels = dataOutput$TIMEPOINT, expand=c(0,timeDiff*errorBarScale))
+ #   p <- p + scale_x_continuous(name = "TIMEPOINT", breaks = dataOutput$TIME_VALUE, labels = dataOutput$TIMEPOINT, expand=c(0,timeDiff*errorBarScale))
   
 	#This sets the color theme of the background/grid.
-	p <- p + theme_bw();
-	noPoints <- nrow(dataOutput)
-	noColors <- 9
-    shapesToUse <- c(15:19, 1:5)
-	p <- p + aes(shape = GROUP) + scale_shape_manual(values = rep_len(shapesToUse, length.out = noPoints))
-	p <- p + aes(colour = GROUP) + scale_colour_manual(values = rep_len(brewer.pal(noColors, "Set1"), length.out = noPoints))
+#	p <- p + theme_bw();
+#	noPoints <- nrow(dataOutput)
+#	noColors <- 9
+ #   shapesToUse <- c(15:19, 1:5)
+#	p <- p + aes(shape = GROUP) + scale_shape_manual(values = rep_len(shapesToUse, length.out = noPoints))
+#	p <- p + aes(colour = GROUP) + scale_colour_manual(values = rep_len(brewer.pal(noColors, "Set1"), length.out = noPoints))
 	
 	#Set the text options for the axis.
-	p <- p + theme(axis.text.x = element_text(size = 17,face="bold",angle=5));
-	p <- p + theme(axis.text.y = element_text(size = 17,face="bold"));
+#	p <- p + theme(axis.text.x = element_text(size = 17,face="bold",angle=5));
+#	p <- p + theme(axis.text.y = element_text(size = 17,face="bold"));
 	
 	#Set the text options for the title.
-	p <- p + theme(axis.title.x = element_text(vjust = -.5,size = 20,face="bold"));
-	p <- p + theme(axis.title.y = element_text(vjust = .35,size = 20,face="bold",angle=90));
+#	p <- p + theme(axis.title.x = element_text(vjust = -.5,size = 20,face="bold"));
+#	p <- p + theme(axis.title.y = element_text(vjust = .35,size = 20,face="bold",angle=90));
 	
 	#Set the legend attributes.
-	p <- p + theme(legend.title = element_text(size = 20,face="bold"));
-	p <- p + theme(legend.text = element_text(size = 15,face="bold"));
-	p <- p + theme(legend.title=element_blank())
+#	p <- p + theme(legend.title = element_text(size = 20,face="bold"));
+#	p <- p + theme(legend.text = element_text(size = 15,face="bold"));
+#	p <- p + theme(legend.title=element_blank())
 
-	p <- p + geom_point(size=4);
-	
+#	p <- p + geom_point(size=4);
+
   p
 }
 
