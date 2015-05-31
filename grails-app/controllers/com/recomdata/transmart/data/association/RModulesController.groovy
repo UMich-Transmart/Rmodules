@@ -144,6 +144,9 @@ class RModulesController {
             case 'groupTestRNASeq':
                 jsonResult = createJob(params, RNASeqGroupTest)
                 break
+            case 'tutorialExample':
+                jsonResult = createJob(params,TutorialExample)
+                break
             default:
                 jsonResult = RModulesService.scheduleJob(
                         springSecurityService.principal.username, params)
