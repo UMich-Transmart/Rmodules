@@ -1,0 +1,36 @@
+{"id":"tutorialExample",
+  "name":"tutorialExample",
+  "dataTypes":{"subset1":["CLINICAL.TXT"]},
+  "dataFileInputMapping":
+    {"MRNA.TXT":"FALSE",
+      "CLINICAL.TXT":"TRUE",
+      "SNP.TXT":"FALSE"},
+  "pivotData":false,
+  "variableMapping":
+    {"||GROUPBY||":"groupByVariable",
+      "||DEPENDENT||":"dependentVariable",
+      "||INDEPENDENT||":"independentVariable",
+      "||GRAPHTYPE||":"graphType"},
+  "converter":
+    {"R":
+      ["source('||PLUGINSCRIPTDIRECTORY||Common/dataBuilders.R')",
+        "source('||PLUGINSCRIPTDIRECTORY||Common/ExtractConcepts.R')",
+        "source('||PLUGINSCRIPTDIRECTORY||Common/collapsingData.R')",
+        "source('||PLUGINSCRIPTDIRECTORY||TutorialExample/BuildTutorialData.R')",
+        "LinearData.build(
+          input.dataFile = '||TEMPFOLDERDIRECTORY||Clinical/clinical.i2b2trans',
+          concept.dependent='||DEPENDENT||', concept.group='||GROUPBY||')"
+      ]},
+  "processor":
+    {"R":
+      ["source('||PLUGINSCRIPTDIRECTORY||TutorialExample/TutorialGraphLoader.r')",
+        "LineGraph.loader(
+          input.filename='outputfile.txt',
+          graphType='||GRAPHTYPE||')"
+      ]},
+  "renderer":
+    {"GSP":"/tutorialExample/lineGraphOutput"},
+  "view":"LineGraph"
+}
+
+{"id":"tutorialExample","name":"tutorialExample","dataTypes":{"subset1":["CLINICAL.TXT"]},"dataFileInputMapping":{"MRNA.TXT":"FALSE","CLINICAL.TXT":"TRUE","SNP.TXT":"FALSE"},"pivotData":false,"variableMapping":{"||GROUPBY||":"groupByVariable","||DEPENDENT||":"dependentVariable","||INDEPENDENT||":"independentVariable","||GRAPHTYPE||":"graphType"},"converter":{"R":["source('||PLUGINSCRIPTDIRECTORY||Common/dataBuilders.R')","source('||PLUGINSCRIPTDIRECTORY||Common/ExtractConcepts.R')","source('||PLUGINSCRIPTDIRECTORY||Common/collapsingData.R')","source('||PLUGINSCRIPTDIRECTORY||TutorialExample/BuildTutorialData.R')","LinearData.build(input.dataFile = '||TEMPFOLDERDIRECTORY||Clinical/clinical.i2b2trans',concept.dependent='||DEPENDENT||', concept.group='||GROUPBY||')"]},"processor":{"R":["source('||PLUGINSCRIPTDIRECTORY||TutorialExample/TutorialGraphLoader.r')","LineGraph.loader(input.filename='outputfile.txt',graphType='||GRAPHTYPE||')"]},"renderer":{"GSP":"/tutorialExample/lineGraphOutput"},"view":"LineGraph"}
