@@ -145,7 +145,7 @@ class RModulesController {
                 jsonResult = createJob(params, RNASeqGroupTest)
                 break
             case 'tutorialExample':
-                jsonResult = createJob(params,TutorialExample)
+                jsonResult = createJob(params, TutorialExample, false)
                 break
             default:
                 jsonResult = RModulesService.scheduleJob(
