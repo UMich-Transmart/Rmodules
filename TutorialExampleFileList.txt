@@ -1,0 +1,28 @@
+Files effected/added by Tutorial Example.
+(* indicates added file)
+
+grails-app/conf/
+	RmodulesResources.groovy
+
+grails-app/controllers/com/recomdata/transmart/data/association/
+	RModulesController.groovy
+	(*)TutorialExampleController.groovy
+
+grails-app/views/plugin/
+	(*)TutorialExample.gsp
+	(*)_tutorialExample_out.gsp
+
+src/groovy/jobs/
+	(*)TutorialExample.groovy
+
+web-app/js/plugin/
+	(*)TutorialExample.js
+
+web-app/Rscripts/
+	(*)TutorialExample/
+		BuildTutorialData.R
+		TutorialGraphLoader.R
+
+
+(also, new line in DB table - see notes and
+TutorialExample.json)
