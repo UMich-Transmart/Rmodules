@@ -1,9 +1,9 @@
 
-LineGraph.loader <- function(
+TotorialGraph.loader <- function(
 	input.filename,
   scaling.filename = NULL,
     plotEvenlySpaced = FALSE,
-	output.file="LineGraph",
+	output.file="TotorialGraph",
 	graphType="MERR",
     aggregate.probes = FALSE,
   HDD.data.type = NULL
@@ -35,17 +35,17 @@ LineGraph.loader <- function(
   # assign the X-axis position to each row
   line.data$TIME_VALUE <- sapply(line.data$GROUP,FUN = function(groupValue) { scaling.data$VALUE[which(groupValue==scaling.data$GROUP)] })
   
-  # Either plot a single LineGraph (if there are no plot_group values)
-  # or, for each group-value, retrieve rows for that value and plot LineGraph
+  # Either plot a single TotorialGraph (if there are no plot_group values)
+  # or, for each group-value, retrieve rows for that value and plot TotorialGraph
   plotGroupValues <- unique(line.data$PLOT_GROUP)
   if (is.null(plotGroupValues) || is.na(plotGroupValues)) {
     imageFileName <- paste(output.file,".png",sep="")
     CairoPNG(file = imageFileName, width=1200, height=600,units = "px")
     if (nrow(line.data) == 0) {
-      Plot.error.message("Dataset is empty. Cannot plot LineGraph.");
+      Plot.error.message("Dataset is empty. Cannot plot TotorialGraph.");
     }
     else {
-      p <- LineGraph.plotter(line.data, graphType, plot.individuals, HDD.data.type)
+      p <- TotorialGraph.plotter(line.data, graphType, plot.individuals, HDD.data.type)
       print(p)
       dev.off()
     }
@@ -55,11 +55,11 @@ LineGraph.loader <- function(
       imageFileName <- paste(output.file,fileIter,".png",sep="")
       CairoPNG(file=imageFileName, width=1200, height=600,units = "px")
       if (length(which(line.data$PLOT_GROUP==plotGroup)) == 0) {
-        Plot.error.message("Dataset is empty. Cannot plot LineGraph.");
+        Plot.error.message("Dataset is empty. Cannot plot TotorialGraph.");
       }
       else {
         groupData <- line.data[which(line.data$PLOT_GROUP==plotGroup),]
-        p <- LineGraph.plotter(groupData, graphType, plot.individuals, HDD.data.type)
+        p <- TutorialExamplePlotter.plotter(groupData, graphType, plot.individuals, HDD.data.type)
         probes <- unlist(strsplit(as.character(plotGroup), '[|]'))
         plotTitle <- ''
         if(probes[1] != '') plotTitle <- paste('Intensity of', probes[1], '.') 
@@ -74,7 +74,7 @@ LineGraph.loader <- function(
 }
 
 
-LineGraph.plotter <- function(
+TotorialGraph.plotter <- function(
   data.to.plot,
   graphType,
   plot.individuals,
@@ -137,9 +137,9 @@ LineGraph.plotter <- function(
     layerData <- aes(x=TIME_VALUE, y=MEDIAN, group=GROUP, colour=GROUP)
     yLabel <- paste(yLabel,"(median + se)")
 	}
-print('-----------------------------------------------')
-print('in Line Graph Loader')
-print('-----------------------------------------------')
+print('---------------------------------------------------------------------------------------')
+print('in Tutorial Gragh Loader - TutorialExamplePlotter - just before plot')
+print('---------------------------------------------------------------------------------------')
 
 	# ggplot2 examples
     library(ggplot2)

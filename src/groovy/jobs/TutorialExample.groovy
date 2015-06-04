@@ -124,7 +124,7 @@ class TutorialExample extends AbstractAnalysisJob {
     @Override
     protected List<String> getRStatements() {
         [ '''source('$pluginDirectory/TutorialExample/TutorialGraphLoader.R')''',
-                '''Tutorial.loader(
+                '''TotorialGraph.loader(
                     input.filename           = '$inputFileName',
                     graphType                = '$graphType',
                     scaling.filename  = ${scalingFilename == 'null' ? 'NULL' : "'$scalingFilename'"},
