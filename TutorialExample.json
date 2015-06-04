@@ -1,3 +1,9 @@
+
+
+Apperently the R steps from this are not any longer used;
+check src/groovy/jobs/TutorialExample.groovy
+----
+
 {"id":"tutorialExample",
   "name":"tutorialExample",
   "dataTypes":{"subset1":["CLINICAL.TXT"]},
@@ -24,7 +30,7 @@
   "processor":
     {"R":
       ["source('||PLUGINSCRIPTDIRECTORY||TutorialExample/TutorialGraphLoader.r')",
-        "LineGraph.loader(
+        "TotorialGraph.loader(
           input.filename='outputfile.txt',
           graphType='||GRAPHTYPE||')"
       ]},
@@ -33,4 +39,8 @@
   "view":"LineGraph"
 }
 
+Flattened:
+{"id":"tutorialExample","name":"tutorialExample","dataTypes":{"subset1":["CLINICAL.TXT"]},"dataFileInputMapping":{"MRNA.TXT":"FALSE","CLINICAL.TXT":"TRUE","SNP.TXT":"FALSE"},"pivotData":false,"variableMapping":{"||GROUPBY||":"groupByVariable","||DEPENDENT||":"dependentVariable","||INDEPENDENT||":"independentVariable","||GRAPHTYPE||":"graphType"},"converter":{"R":["source('||PLUGINSCRIPTDIRECTORY||Common/dataBuilders.R')","source('||PLUGINSCRIPTDIRECTORY||Common/ExtractConcepts.R')","source('||PLUGINSCRIPTDIRECTORY||Common/collapsingData.R')","source('||PLUGINSCRIPTDIRECTORY||TutorialExample/BuildTutorialData.R')","LinearData.build(input.dataFile = '||TEMPFOLDERDIRECTORY||Clinical/clinical.i2b2trans',concept.dependent='||DEPENDENT||', concept.group='||GROUPBY||')"]},"processor":{"R":["source('||PLUGINSCRIPTDIRECTORY||TutorialExample/TutorialGraphLoader.r')","TotorialGraph.loader(input.filename='outputfile.txt',graphType='||GRAPHTYPE||')"]},"renderer":{"GSP":"/tutorialExample/lineGraphOutput"},"view":"LineGraph"}
+
+From DB:
 {"id":"tutorialExample","name":"tutorialExample","dataTypes":{"subset1":["CLINICAL.TXT"]},"dataFileInputMapping":{"MRNA.TXT":"FALSE","CLINICAL.TXT":"TRUE","SNP.TXT":"FALSE"},"pivotData":false,"variableMapping":{"||GROUPBY||":"groupByVariable","||DEPENDENT||":"dependentVariable","||INDEPENDENT||":"independentVariable","||GRAPHTYPE||":"graphType"},"converter":{"R":["source('||PLUGINSCRIPTDIRECTORY||Common/dataBuilders.R')","source('||PLUGINSCRIPTDIRECTORY||Common/ExtractConcepts.R')","source('||PLUGINSCRIPTDIRECTORY||Common/collapsingData.R')","source('||PLUGINSCRIPTDIRECTORY||TutorialExample/BuildTutorialData.R')","LinearData.build(input.dataFile = '||TEMPFOLDERDIRECTORY||Clinical/clinical.i2b2trans',concept.dependent='||DEPENDENT||', concept.group='||GROUPBY||')"]},"processor":{"R":["source('||PLUGINSCRIPTDIRECTORY||TutorialExample/TutorialGraphLoader.r')","LineGraph.loader(input.filename='outputfile.txt',graphType='||GRAPHTYPE||')"]},"renderer":{"GSP":"/tutorialExample/lineGraphOutput"},"view":"LineGraph"}
