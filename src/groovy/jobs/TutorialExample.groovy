@@ -29,7 +29,6 @@ class TutorialExample extends AbstractAnalysisJob {
     @Autowired
     SimpleAddColumnConfigurator primaryKeyColumnConfigurator
 
-
     @Autowired
     @Qualifier('general')
     OptionalBinningColumnConfigurator innerGroupByConfigurator

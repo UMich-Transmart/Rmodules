@@ -1,6 +1,24 @@
-%{--include js lib for tutorialExample dynamically--}%
+%{-- Include js lib for tutorialExample dynamically.                        --}%
+%{-- Note: the functions of tutorialExampleView are defined in this module. --}%
+%{--     For example, see the clear button of each input field.             --}%
 <r:require modules="tutorial_example"/>
 <r:layoutResources disposition="defer"/>
+
+<div id="introductionDiv">
+    %{-- ************************************************************************************************* --}%
+    %{-- introduction -- more details are availabe in the comments of the controller located at:           --}%
+    %{--         grails-app/controllers/com/recomdata/transmart/data/association/TutorialExampleController --}%
+    %{-- ************************************************************************************************* --}%
+    <h2>Tutorial Example Pllugin - Introduction</h2>
+    <p>
+    This Advanced Analysis plugin is part of a Tutorial on creating a such plugins. See the controler file
+    at com/recomdata/transmart/data/association/TutorialExampleController for more details.</p>
+    <p>
+    This Example Advanced Analysis, lets you select any clinical-date leaf-node concepts and will generate a histogram of the
+    counts of the concepts, and an output table of the values. The output table will be in the Download raw R data
+    zip file and will be labeled outputfile.txt. Note: as a short-cut for including all the leaf-nodes of a folder
+    that contains only leaf-nodes, you can drag the folder into the selection box.</p>
+</div>
 
 <div id="analysisWidget">
 
@@ -15,9 +33,9 @@
     <form id="analysisForm">
         <div class="container">
 
-            %{-- ************************************************************************************************* --}%
-            %{-- Left inputs --}%
-            %{-- ************************************************************************************************* --}%
+            %{-- *************************************************************************************************  --}%
+            %{-- Left input feild only, in this concept; see LineGraph.gsp for an example using both left and right --}%
+            %{-- *************************************************************************************************  --}%
             <div class="left">
                 <fieldset class="inputFields">
 
@@ -25,17 +43,14 @@
                     <div class="highDimContainer">
                         <h3>Time/Measurement Concepts</h3>
                         <span class="hd-notes">
-                          %{--Drag one or more <strong>numerical</strong> concepts from the tree into the box below or--}%
-                          %{--high dimensional node. The concepts must come from a data node (Biomarker Data or Clinical--}%
-                        %{--Data).--}%
 
-                          Drag one or multiple numerical or high dimensional nodes from the tree into box below.
+                          Drag one or more multiple numerical or high dimensional nodes from the tree into box below.
 
                         </span>
                         <div id='divDependentVariable' class="queryGroupIncludeSmall highDimBox"></div>
                         <div class="highDimBtns">
                             <button type="button" onclick="highDimensionalData.gather_high_dimensional_data('divDependentVariable', true)">High Dimensional Data</button>
-                            <button type="button" onclick="lineGraphView.clear_high_dimensional_input('divDependentVariable')">Clear</button>
+                            <button type="button" onclick="tutorialExampleView.clear_high_dimensional_input('divDependentVariable')">Clear</button>
                         </div>
                         <input type="hidden" id="dependentVarDataType">
                         <input type="hidden" id="dependentPathway">
@@ -68,7 +83,7 @@
                         <div id='divGroupByVariable' class="queryGroupIncludeSmall highDimBox"></div>
                         <div class="highDimBtns">
                             <button type="button" onclick="highDimensionalData.gather_high_dimensional_data('divGroupByVariable', true)">High Dimensional Data</button>
-                            <button type="button" onclick="lineGraphView.clear_high_dimensional_input('divGroupByVariable')">Clear</button>
+                            <button type="button" onclick="tutorialExampleView.clear_high_dimensional_input('divGroupByVariable')">Clear</button>
                         </div>
                         <input type="hidden" id="groupByVarDataType">
                         <input type="hidden" id="groupByPathway">

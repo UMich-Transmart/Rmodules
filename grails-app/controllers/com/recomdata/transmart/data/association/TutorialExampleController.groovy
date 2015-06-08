@@ -26,3 +26,6 @@ class TutorialExampleController {
 		render(template: "/plugin/TutorialExample_out", model:[imageLocations:imageLinks,zipLink:RModulesOutputRenderService.zipLink], contextPath:pluginContextPath)
 	}
 }
+/**
+ * Extend comment field
+ */
