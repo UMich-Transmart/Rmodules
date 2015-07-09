@@ -1,11 +1,11 @@
 
 # This R script is part of a tutorial example. See comment block at the end of this code file
 
-TotorialGraph.loader <- function(
+TutorialGraph.loader <- function(
 	input.filename,
   scaling.filename = NULL,
     plotEvenlySpaced = FALSE,
-	output.file="TotorialGraph",
+	output.file="TutorialGraph",
 	graphType="MERR",
     aggregate.probes = FALSE,
   HDD.data.type = NULL
@@ -37,17 +37,17 @@ TotorialGraph.loader <- function(
   # assign the X-axis position to each row
   line.data$TIME_VALUE <- sapply(line.data$GROUP,FUN = function(groupValue) { scaling.data$VALUE[which(groupValue==scaling.data$GROUP)] })
   
-  # Either plot a single TotorialGraph (if there are no plot_group values)
-  # or, for each group-value, retrieve rows for that value and plot TotorialGraph
+  # Either plot a single TutorialGraph (if there are no plot_group values)
+  # or, for each group-value, retrieve rows for that value and plot TutorialGraph
   plotGroupValues <- unique(line.data$PLOT_GROUP)
   if (is.null(plotGroupValues) || is.na(plotGroupValues)) {
     imageFileName <- paste(output.file,".png",sep="")
     CairoPNG(file = imageFileName, width=1200, height=600,units = "px")
     if (nrow(line.data) == 0) {
-      Plot.error.message("Dataset is empty. Cannot plot TotorialGraph.");
+      Plot.error.message("Dataset is empty. Cannot plot TutorialGraph.");
     }
     else {
-      p <- TotorialGraph.plotter(line.data, graphType, plot.individuals, HDD.data.type)
+      p <- TutorialGraph.plotter(line.data, graphType, plot.individuals, HDD.data.type)
       print(p)
       dev.off()
     }
@@ -57,7 +57,7 @@ TotorialGraph.loader <- function(
       imageFileName <- paste(output.file,fileIter,".png",sep="")
       CairoPNG(file=imageFileName, width=1200, height=600,units = "px")
       if (length(which(line.data$PLOT_GROUP==plotGroup)) == 0) {
-        Plot.error.message("Dataset is empty. Cannot plot TotorialGraph.");
+        Plot.error.message("Dataset is empty. Cannot plot TutorialGraph.");
       }
       else {
         groupData <- line.data[which(line.data$PLOT_GROUP==plotGroup),]
@@ -76,7 +76,7 @@ TotorialGraph.loader <- function(
 }
 
 
-TotorialGraph.plotter <- function(
+TutorialGraph.plotter <- function(
   data.to.plot,
   graphType,
   plot.individuals,
