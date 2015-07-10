@@ -23,27 +23,6 @@ concept.group=""
 
 	splitData <- split(dataFile,dataFile$CONCEPT_PATH);
 
-	#I am leaving this code out, but if we ever decide to use an input box for the timepoint category, we'll need this.
-	##########################################
-	#Get the distinct values for the X axis. (In this case, weeks)
-	#splitConcept <- strsplit(currentIndependent,"\\|");
-	#splitConcept <- unlist(splitConcept);
-
-	#This will be a temp matrix with VALUE.
-	#tempConceptMatrix <- matrix(ncol=1,nrow=0);
-
-	#For each of the passed in concepts, append the rows onto the end of our temp matrix.
-	#for(entry in splitConcept)
-	#{
-	#	tempConceptMatrix <- rbind(tempConceptMatrix,splitData[[entry]][c('PATIENT_NUM','VALUE')])		
-	#}
-
-	#Add column names to our temp matrix.
-	#colnames(tempConceptMatrix) <- c('PATIENT_NUM','VALUE')
-
-	#independent.frame <- tempConceptMatrix
-	##########################################
-
 	##########################################
 	#Get a table of Y value/Patient
 	splitConcept <- strsplit(concept.dependent,"\\|");

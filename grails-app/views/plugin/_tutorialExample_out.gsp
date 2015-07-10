@@ -1,4 +1,4 @@
-<h2>Line Graph</h2>
+<h2>Tutorial Example Graph</h2>
 
 %{-- This GSP layout is part of a tutorial example. See comment block at the end of this code file --}%
 

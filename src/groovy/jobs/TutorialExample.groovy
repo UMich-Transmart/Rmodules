@@ -3,10 +3,9 @@ package jobs
 import com.google.common.base.Function
 import com.google.common.collect.Maps
 import jobs.steps.*
-import jobs.steps.helpers.ContextNumericVariableColumnConfigurator
-import jobs.steps.helpers.OptionalBinningColumnConfigurator
-import jobs.steps.helpers.OptionalColumnConfiguratorDecorator
+import jobs.steps.helpers.CategoricalColumnConfigurator
 import jobs.steps.helpers.SimpleAddColumnConfigurator
+import jobs.steps.helpers.OptionalColumnConfiguratorDecorator
 import jobs.table.ConceptTimeValuesTable
 import jobs.table.Table
 import jobs.table.columns.PrimaryKeyColumn
@@ -32,54 +31,27 @@ class TutorialExample extends AbstractAnalysisJob {
     SimpleAddColumnConfigurator primaryKeyColumnConfigurator
 
     @Autowired
-    @Qualifier('general')
-    OptionalBinningColumnConfigurator innerGroupByConfigurator
-
-    @Autowired
-    OptionalColumnConfiguratorDecorator groupByConfigurator
-
-    @Autowired
-    ContextNumericVariableColumnConfigurator measurementConfigurator
-
-    @Autowired
-    ConceptTimeValuesTable conceptTimeValues
+    CategoricalColumnConfigurator conceptConfigurator
 
     @Autowired
     Table table
 
-    @PostConstruct
+    @Override
     void init() {
         primaryKeyColumnConfigurator.column = new PrimaryKeyColumn(header: 'PATIENT_NUM')
 
-        measurementConfigurator.header                = 'VALUE'
-        measurementConfigurator.projection            = Projection.LOG_INTENSITY_PROJECTION
-        measurementConfigurator.multiRow              = true
-        measurementConfigurator.multiConcepts         = true
-        // we do not want group name pruning for LineGraph
+        print("conceptConfigurator = " + conceptConfigurator)
+        conceptConfigurator.header                      = 'VALUE'
 
-        measurementConfigurator.keyForConceptPath     = 'dependentVariable'
-        measurementConfigurator.keyForDataType        = 'divDependentVariableType'
-        measurementConfigurator.keyForSearchKeywordId = 'divDependentVariablePathway'
+        conceptConfigurator.multiRow              = true
 
-        innerGroupByConfigurator.projection           = Projection.LOG_INTENSITY_PROJECTION
-        innerGroupByConfigurator.multiRow             = true
-        innerGroupByConfigurator.keyForIsCategorical  = 'groupByVariableCategorical'
-        innerGroupByConfigurator.setKeys 'groupBy'
+        conceptConfigurator.multiConcepts         = true
 
-        def binningConfigurator = innerGroupByConfigurator.binningConfigurator
-        binningConfigurator.keyForDoBinning           = 'binningGroupBy'
-        binningConfigurator.keyForManualBinning       = 'manualBinningGroupBy'
-        binningConfigurator.keyForNumberOfBins        = 'numberOfBinsGroupBy'
-        binningConfigurator.keyForBinDistribution     = 'binDistributionGroupBy'
-        binningConfigurator.keyForBinRanges           = 'binRangesGroupBy'
-        binningConfigurator.keyForVariableType        = 'variableTypeGroupBy'
+        // we do not want group name pruning
 
-        groupByConfigurator.header                    = 'GROUP_VAR'
-        groupByConfigurator.generalCase               = innerGroupByConfigurator
-        groupByConfigurator.keyForEnabled             = 'groupByVariable'
-        groupByConfigurator.setConstantColumnFallback 'SINGLE_GROUP'
-
-        conceptTimeValues.conceptPaths = measurementConfigurator.getConceptPaths()
+        conceptConfigurator.keyForConceptPath     = 'dependentVariable'
+        conceptConfigurator.keyForDataType        = 'divDependentVariableType'
+        conceptConfigurator.keyForSearchKeywordId = 'divDependentVariablePathway'
     }
 
     @Override
@@ -89,19 +61,12 @@ class TutorialExample extends AbstractAnalysisJob {
         steps << new BuildTableResultStep(
                 table:         table,
                 configurators: [primaryKeyColumnConfigurator,
-                                measurementConfigurator,
-                                groupByConfigurator])
+                                conceptConfigurator])
 
         steps << new LineGraphDumpTableResultsStep(
                 table:              table,
                 temporaryDirectory: temporaryDirectory,
                 outputFileName: DEFAULT_OUTPUT_FILE_NAME)
-
-        steps << new BuildConceptTimeValuesStep(
-                table: conceptTimeValues,
-                outputFile: new File(temporaryDirectory, SCALING_VALUES_FILENAME),
-                header: [ "GROUP", "VALUE" ]
-        )
 
         Map<String, Closure<String>> extraParams = [:]
         extraParams['scalingFilename'] = { getScalingFilename() }
@@ -118,18 +83,11 @@ class TutorialExample extends AbstractAnalysisJob {
         steps
     }
 
-    private String getScalingFilename() {
-        conceptTimeValues.resultMap ? SCALING_VALUES_FILENAME : null
-    }
-
     @Override
     protected List<String> getRStatements() {
         [ '''source('$pluginDirectory/TutorialExample/TutorialGraphLoader.R')''',
                 '''TutorialGraph.loader(
                     input.filename           = '$inputFileName',
-                    graphType                = '$graphType',
-                    scaling.filename  = ${scalingFilename == 'null' ? 'NULL' : "'$scalingFilename'"},
-                    plotEvenlySpaced = '$plotEvenlySpaced'
         )''' ]
     }
 
